@@ -6,6 +6,8 @@ class Food:
     def __init__(self,path,rows,cols):
         self.img=pygame.image.load(path)
         self.boundaries=(rows,cols)
+        self.food_x=(random.randint(3,self.boundaries[0]-1))
+        self.food_y=(random.randint(3,self.boundaries[1]-1))
     def PlotFood(self,snake,GameDisplay):
         while True:
             self.food_x=(random.randint(0,self.boundaries[0]-1))
@@ -18,11 +20,7 @@ class Food:
                 break
 
 
-if __name__=='__main__'
-snake=Snake(r'snakeBody.png',3,3,0)
-food=Food(r'food2.png',10,10)
-Win=None
-food.PlotFood(snake,Win)
-print(snake.snake_lst)
-print(snake.GetData())
-print(food.food_x,food.food_y)
+if __name__=='__main__':
+    pygame.init()
+    snake=Snake(r'snakeBody.png',3,3,0)
+    food=Food(r'food2.png',10,10)
