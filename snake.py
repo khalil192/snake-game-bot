@@ -29,6 +29,6 @@ class Snake:
     def Check(self,x,y):
         return [x,y] in self.snake_lst
 
-snake=Snake(r'snakeBody.png',3,3,0)
-
-print(snake.GetData())
+if __name__=='__main__':
+    snake=Snake(r'snakeBody.png',3,3,0)
+    print(snake.GetData())
