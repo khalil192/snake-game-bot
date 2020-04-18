@@ -14,7 +14,7 @@ class Snake:
                 y=self.snake_y
                 self.snake_lst.insert(0,(x,y))
         else:
-            self.snake_lst=[[self.snake_x,self.snake_y]]
+            self.snake_lst=[(self.snake_x,self.snake_y)]
         self.snake_sx=0
         self.snake_sy=0
         self.direction={'l':False,'r':True,'u':False,'d':False}
