@@ -1,4 +1,5 @@
 import pygame
+<<<<<<< HEAD
 from snaky import Snake
 from food import Food
 import random
@@ -27,6 +28,12 @@ def getRandomMove(predictedMoves):
     allowedMoves = [moves[max1], moves[max2]]
     return random.choice(allowedMoves)
 
+=======
+from snake import Snake
+from food import Food
+import random
+pygame.init()
+>>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
 
 class Game:
     def __init__(self,path,rows):
@@ -35,10 +42,16 @@ class Game:
         self.window_height=rows*20
         self.window_width=rows*20
         self.GameDisplay=pygame.display.set_mode((self.window_height,self.window_width))
+<<<<<<< HEAD
         self.font=pygame.font.SysFont('monospace',10)
         self.clock=pygame.time.Clock()
         self.GameExit=False
         self.grid_length = rows
+=======
+        self.font=pygame.font.SysFont('monospace',6)
+        self.clock=pygame.time.Clock()
+        self.GameExit=False
+>>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
     def DrawLines(self):
         x,y=(0,0)
         self.GameDisplay.blit(self.img,(0,0))
@@ -59,16 +72,29 @@ class Game:
         y_pos=self.label(round(game_time/1000,2),'Game Time',x_pos,y_pos+gap)
         y_pos=self.label(score,'Score:',x_pos,y_pos+gap)
     def GameLoop(self):
+<<<<<<< HEAD
         snake=Snake(r'snakeBody.png',1,0,5)
         food=Food(r'food2.png',20,20)
         game_time=0
         model = load_model('first.h5')
         while not self.GameExit:
             dt=self.clock.tick(60)
+=======
+        snake=Snake(r'snakeBody.png',3,3,0)
+        food=Food(r'food2.png',10,10)
+        game_time=0
+        while not self.GameExit:
+            dt=self.clock.tick(10)
+>>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
             game_time+=dt
             score=0
             if not snake.is_alive:
                 self.DataLabel(dt,game_time,score)
+<<<<<<< HEAD
+=======
+                print('Dead')
+                print(snake.snake_lst)
+>>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
                 for event in pygame.event.get():
                     if event.type==pygame.QUIT:
                         self.GameExit=True
@@ -81,6 +107,7 @@ class Game:
                 for event in pygame.event.get():
                     if event.type==pygame.QUIT:
                         self.GameExit=True
+<<<<<<< HEAD
                 snake_instance = pd.DataFrame(snake.GetData(self.grid_length , food.food_y , food.food_x))
                 snake_instance = snake_instance.transpose()
                 # predictedMoves = model.predict(snake_instance[0:15])
@@ -90,6 +117,10 @@ class Game:
                 # predictedMove = getRandomMove(predictedMoves)
                 snake.Move(predictedMove,self.grid_size[0])
                 if snake.snake_y-food.food_x==0 and snake.snake_x-food.food_y==0:
+=======
+                snake.Move(random.choice(['l','r','u','d']),self.grid_size[0])
+                if snake.snake_x-food.food_x==0 and snake.snake_y-food.food_y==0:
+>>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
                     snake.snake_length+=1
                     score+=1
                     food.PlotFood(snake,self.GameDisplay)
@@ -100,5 +131,9 @@ class Game:
 
 
 if __name__=='__main__':
+<<<<<<< HEAD
     game=Game(r'SnakeBG.PNG',20)
+=======
+    game=Game(r'SnakeBG.PNG',10)
+>>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
     game.GameLoop()

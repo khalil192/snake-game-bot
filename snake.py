@@ -21,6 +21,7 @@ class Snake:
     def PlotSnake(self,GameDisplay):
         for x,y in self.snake_lst:
             GameDisplay.blit(self.img,(x*20,y*20))
+<<<<<<< HEAD
     def GetData(self , grid_length):
         print(self.snake_lst)
         surrond =[]
@@ -50,6 +51,16 @@ class Snake:
 
     def Check(self,x,y):
         return (y,x) in self.snake_lst
+=======
+    def GetData(self):
+        print(self.snake_lst)
+        diff_x=self.snake_x-self.snake_lst[0][0]
+        diff_y=self.snake_y-self.snake_lst[0][1]
+        return self.snake_x,self.snake_y,diff_x,diff_y
+    
+    def Check(self,x,y):
+        return [x,y] in self.snake_lst
+>>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
 
     def Move(self,move,rows):
         if move=='l' and self.direction['r']==False:
