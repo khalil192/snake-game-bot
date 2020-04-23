@@ -1,9 +1,10 @@
 import pygame
-<<<<<<< HEAD
 from snaky import Snake
 from food import Food
 import random
-pygame.init()
+from collections import defaultdict
+import pandas
+import time
   
 import pandas as pd
 import numpy
@@ -23,38 +24,31 @@ def getRandomMove(predictedMoves):
             max1 = i
         elif (predictedMoves[i] > predictedMoves[max2]):
             max2 = i
-    if(predictedMoves[max1]/predictedMoves[max2] > 30):
+    if(predictedMoves[max1]/predictedMoves[max2] > 4):
         max2 = max1
     allowedMoves = [moves[max1], moves[max2]]
     return random.choice(allowedMoves)
 
-=======
-from snake import Snake
-from food import Food
-import random
-pygame.init()
->>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
 
 class Game:
-    def __init__(self,path,rows):
-        self.img=pygame.image.load(path)
+    def __init__(self,path,rows,file,episodes,render=True):
         self.grid_size=(rows,rows)
         self.window_height=rows*20
         self.window_width=rows*20
-        self.GameDisplay=pygame.display.set_mode((self.window_height,self.window_width))
-<<<<<<< HEAD
-        self.font=pygame.font.SysFont('monospace',10)
-        self.clock=pygame.time.Clock()
         self.GameExit=False
+        self.h5=file
+        self.episodes=episodes
         self.grid_length = rows
-=======
-        self.font=pygame.font.SysFont('monospace',6)
-        self.clock=pygame.time.Clock()
-        self.GameExit=False
->>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
+        self.render=render
+        if self.render:
+            pygame.init()
+            self.img=pygame.image.load(path)
+            self.GameDisplay=pygame.display.set_mode((self.window_height,self.window_width))
+            self.font=pygame.font.SysFont('monospace',10)
+            self.clock=pygame.time.Clock()
     def DrawLines(self):
         x,y=(0,0)
-        self.GameDisplay.blit(self.img,(0,0))
+        self.GameDisplay.fill((255,255,255))
         for _ in range(self.grid_size[0]):
             x+=20
             y+=20
@@ -69,71 +63,73 @@ class Game:
         gap=10
         x_pos=10
         y_pos=self.label(round(1000/dt,2),'FPS',x_pos,y_pos+gap)
-        y_pos=self.label(round(game_time/1000,2),'Game Time',x_pos,y_pos+gap)
+        y_pos=self.label(game_time,'Game Time',x_pos,y_pos+gap)
         y_pos=self.label(score,'Score:',x_pos,y_pos+gap)
     def GameLoop(self):
-<<<<<<< HEAD
-        snake=Snake(r'snakeBody.png',1,0,5)
-        food=Food(r'food2.png',20,20)
-        game_time=0
-        model = load_model('first.h5')
-        while not self.GameExit:
-            dt=self.clock.tick(60)
-=======
-        snake=Snake(r'snakeBody.png',3,3,0)
-        food=Food(r'food2.png',10,10)
-        game_time=0
-        while not self.GameExit:
-            dt=self.clock.tick(10)
->>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
-            game_time+=dt
-            score=0
+        snake=Snake(r'snakeBody.png',2,4,2)
+        food=Food(r'food2.png',*self.grid_size)
+        model = load_model(self.h5)
+        score=0
+        data=defaultdict(list)
+        start=time.time()
+        while not self.GameExit and self.episodes:
+            if self.render:
+                dt=self.clock.tick(60)
             if not snake.is_alive:
-                self.DataLabel(dt,game_time,score)
-<<<<<<< HEAD
-=======
-                print('Dead')
-                print(snake.snake_lst)
->>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
-                for event in pygame.event.get():
-                    if event.type==pygame.QUIT:
-                        self.GameExit=True
-                        pygame.quit()
-                    if event.type==pygame.KEYDOWN:
-                        if event.key==pygame.K_RETURN:
-                            self.GameLoop()
+                self.episodes-=1
+                print(self.episodes)
+                #self.DataLabel(dt,game_time,score)
+                data['Game_Time'].append(time.time()-start)
+                data['Score_achieved'].append(score)
+                if self.render:
+                    for event in pygame.event.get():
+                        if event.type==pygame.QUIT:
+                            self.GameExit=True
+                            pygame.quit()
+                snake=Snake(r'snakeBody.png',2,4,2)
+                food=Food(r'food2.png',*self.grid_size)
+                score=0
+                start=time.time()    
             else:
-                self.DrawLines()
-                for event in pygame.event.get():
-                    if event.type==pygame.QUIT:
-                        self.GameExit=True
-<<<<<<< HEAD
+                if self.render:
+                    self.DrawLines()
+                    for event in pygame.event.get():
+                        if event.type==pygame.QUIT:
+                            self.GameExit=True
+                        if event.type==pygame.KEYDOWN:
+                            if event.key==pygame.K_RETURN:
+                                self.GameLoop()
                 snake_instance = pd.DataFrame(snake.GetData(self.grid_length , food.food_y , food.food_x))
                 snake_instance = snake_instance.transpose()
-                # predictedMoves = model.predict(snake_instance[0:15])
                 moves = ['l', 'r' , 'u' , 'd']
 
-                predictedMove = moves[model.predict_classes(snake_instance[0:15])[0]]
+
+                predictedMove = moves[model.predict_classes(snake_instance)[0]]
+                # predictedMoves = model.predict(snake_instance)
                 # predictedMove = getRandomMove(predictedMoves)
+                # print(predictedMoves)
+                #print('move is ', predictedMove)
+                # print('snake lst' , snake.snake_lst)
                 snake.Move(predictedMove,self.grid_size[0])
                 if snake.snake_y-food.food_x==0 and snake.snake_x-food.food_y==0:
-=======
-                snake.Move(random.choice(['l','r','u','d']),self.grid_size[0])
-                if snake.snake_x-food.food_x==0 and snake.snake_y-food.food_y==0:
->>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
                     snake.snake_length+=1
                     score+=1
-                    food.PlotFood(snake,self.GameDisplay)
-                self.GameDisplay.blit(food.img,(food.food_x*20,food.food_y*20))
-                snake.PlotSnake(self.GameDisplay)
-            self.DataLabel(dt,game_time,score)
-            pygame.display.update()
+                    if self.render:
+                        food.PlotFood(snake,self.GameDisplay)
+                if self.render:
+                    self.GameDisplay.blit(food.img,(food.food_x*20,food.food_y*20))
+                    snake.PlotSnake(self.GameDisplay)
+            if self.render:
+                self.DataLabel(dt,time.time()-start,score)
+                pygame.display.update()
+        df=pd.DataFrame(data)
+        df.index.name='episodes'
+        df.index+=1
+        #df.Game_Time*=scaling factor to save scaled values
+        df.to_csv(self.h5.replace('.h5','.csv'))
+        
 
 
 if __name__=='__main__':
-<<<<<<< HEAD
-    game=Game(r'SnakeBG.PNG',20)
-=======
-    game=Game(r'SnakeBG.PNG',10)
->>>>>>> e74f65ea9d5f7d5c0554e1e9ec2b86de46eeebdd
+    game=Game(r'SnakeBG.PNG',30,'42_750_1.h5',30,render=False)
     game.GameLoop()
