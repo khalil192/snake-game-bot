@@ -74,7 +74,7 @@ class Game:
         start=time.time()
         while not self.GameExit and self.episodes:
             if self.render:
-                dt=self.clock.tick(60)
+                dt=self.clock.tick(10)
             if not snake.is_alive:
                 self.episodes-=1
                 print(self.episodes)
@@ -131,5 +131,5 @@ class Game:
 
 
 if __name__=='__main__':
-    game=Game(r'SnakeBG.PNG',30,'42_750_1.h5',30,render=False)
+    game=Game(r'SnakeBG.PNG',30,'42_750_1.h5',3,render=True)
     game.GameLoop()

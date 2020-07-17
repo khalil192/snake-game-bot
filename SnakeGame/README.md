@@ -8,5 +8,11 @@ This is a simple Snake Game created using `pygame1.9.6 and Python3.7` and the ru
 "Game Over" and "Score" is displayed when snake runs into itself or touches the border. Press Enter to restart the game.
 ![GameImage](https://i.stack.imgur.com/0Yqz9.png)
 
+### Game UI
+
+In OOP version added "FPS", "Score", "Time" to the top left corner. 
+
+![GameImageOOP](https://i.stack.imgur.com/DnGPm.jpg)
+
 
 
