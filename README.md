@@ -1,2 +1,2 @@
-![Demo](demo/demo.gif)
+![Demo](demo/demo_slow_frame.gif)
 
